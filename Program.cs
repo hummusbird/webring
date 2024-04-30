@@ -75,7 +75,7 @@ app.MapGet("/prev", async Task<IResult> (HttpRequest request) =>
         if (websites[i].domains.Contains(request.Headers["Referer"])) // found website
         {
             Console.WriteLine($"/prev: prev domain in webring from {request.Headers["Referer"]}");
-            if (i == 0) { i = websites.Count + 1; }
+            if (i < 1) { i = websites.Count; }
             return Results.Redirect(websites[i - 1].domains.First());
         }
     }
