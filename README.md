@@ -2,7 +2,7 @@
 
 supports multiple domains per person
 
-add all users into the list.txt folder next to the binary, separate the username and domains using a semicolon, and each domain using a comma
+add all users into the list.txt file next to the binary, separate the username and domains using a semicolon, and each domain using a comma
 
 ```
 birb;https://miaow.ing/,https://birb.cc/,https://hummusbird.co.uk/
