@@ -34,4 +34,29 @@ app.MapGet("/prev", async Task<IResult> (HttpRequest request) =>
     return "prev";
 });
 
+app.MapGet("/random", async Task<IResult> (HttpRequest request) =>
+{
+    return "random";
+});
+
+List<Website> websites = new();
+
+string[] lines = File.ReadAllLines("list.txt");
+foreach (string line in lines)
+{
+    Website website = new Website
+    {
+        username = line.Split("\t").First(),
+        domains = line.Split("\t").Last().Split(",").ToList()
+    };
+
+    websites.Add(website);
+}
+
 app.Run();
+
+public class Website
+{
+    public string? username;
+    public List<string>? domains;
+}
