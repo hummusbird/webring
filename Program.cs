@@ -45,7 +45,7 @@ app.MapGet("/next", async Task<IResult> (HttpRequest request) =>
     if (request.Headers["Referer"].ToString() == "")
     { // no referer, go to random domain
         Console.WriteLine("/next: no referrer, picking random website");
-        return Results.Redirect("/random");
+        return Results.Redirect("/rand");
     }
 
     for (int i = 0; i < websites.Count; i++)
@@ -59,7 +59,7 @@ app.MapGet("/next", async Task<IResult> (HttpRequest request) =>
     }
 
     Console.WriteLine($"/prev: couldn't find {request.Headers["Referer"]} in list, picking random website");
-    return Results.Redirect(websites[random.Next(websites.Count)].domains.First()); // unable to find website in list
+    return Results.Redirect("/rand"); // unable to find website in list
 });
 
 app.MapGet("/prev", async Task<IResult> (HttpRequest request) =>
@@ -67,7 +67,7 @@ app.MapGet("/prev", async Task<IResult> (HttpRequest request) =>
     if (request.Headers["Referer"].ToString() == "")
     { // no referer, go to random domain
         Console.WriteLine("/prev: no referrer, picking random website");
-        return Results.Redirect("/random");
+        return Results.Redirect("/rand");
     }
 
     for (int i = 0; i < websites.Count; i++)
@@ -81,12 +81,12 @@ app.MapGet("/prev", async Task<IResult> (HttpRequest request) =>
     }
 
     Console.WriteLine($"/prev: couldn't find {request.Headers["Referer"]} in list, picking random website");
-    return Results.Redirect(websites[random.Next(websites.Count)].domains.First()); // unable to find website in list
+    return Results.Redirect("/rand"); // unable to find website in list
 });
 
-app.MapGet("/random", () =>
+app.MapGet("/rand", () =>
 {
-    Console.WriteLine("/random: picking random website");
+    Console.WriteLine("/rand: picking random website");
     return Results.Redirect(websites[random.Next(websites.Count)].domains.First());
 });
 
