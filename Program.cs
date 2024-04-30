@@ -52,10 +52,17 @@ app.MapGet("/next", async Task<IResult> (HttpRequest request) =>
     return Results.Ok("test");
 });
 
-// app.MapGet("/prev", async Task<IResult> (HttpRequest request) =>
-// {
-//     return "prev";
-// });
+app.MapGet("/prev", async Task<IResult> (HttpRequest request) =>
+{
+    if (request.Headers["Referer"].ToString() == "")
+    { // no referer, go to random domain
+        Console.WriteLine("/prev: no referrer, picking random website");
+        return Results.Redirect(websites[random.Next(websites.Count)].domains.First());
+    }
+
+    Console.WriteLine($"/prev: prev domain in webring from {request.Headers["Referer"]}");
+    return Results.Ok("test");
+});
 
 app.MapGet("/random", () =>
 {
