@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="appsettings.json" CopyToPublishDirectory="Always" />
     <Content Update="list.txt" CopyToPublishDirectory="Always" />
   </ItemGroup>
 
