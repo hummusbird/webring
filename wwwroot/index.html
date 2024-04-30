@@ -1,1 +1,45 @@
-hello
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <title>webring.birb.cc</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+</head>
+
+<style>
+    body {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    h1,
+    h2,
+    h4,
+    p {
+        text-align: center;
+    }
+</style>
+
+<body>
+    <header>
+        <h1>webring.birb.cc</h1>
+        <h4>a simple asp.net webring</h4>
+    </header>
+    <main>
+        <h2>members</h2>
+
+        <ul>
+            {{members}}
+        </ul>
+
+        <p>To join the webring, please contact birb at any of the socials on <a href="https://miaow.ing">miaow.ing</a></p>
+        <p>You can view the source code <a href="https://github.com/hummusbird/webring">here</a></a></p>
+
+        <h2 style="text-align:center">
+            <a href=/prev>&lt;=</a> <a href="/">webring</a> <a href=/next>=&gt;</a>
+        </h2>
+    </main>
+</body>
+
+</html>

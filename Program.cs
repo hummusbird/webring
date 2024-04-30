@@ -36,8 +36,6 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 });
 
 app.UseHttpsRedirection();  // redirect 80 to 443
-app.UseDefaultFiles();      // use index.html & index.css
-app.UseStaticFiles();       // enable static file serving
 app.UseCors(MyAllowSpecificOrigins);
 
 app.MapGet("/next", async Task<IResult> (HttpRequest request) =>
@@ -60,6 +58,19 @@ app.MapGet("/next", async Task<IResult> (HttpRequest request) =>
 
     Console.WriteLine($"/prev: couldn't find {request.Headers["Referer"]} in list, picking random website");
     return Results.Redirect("/rand"); // unable to find website in list
+});
+
+app.MapGet("/", () =>
+{
+    string html = File.ReadAllText("wwwroot/index.html");
+
+    string members = "";
+    foreach (Website website in websites)
+    {
+        members += $"<li><a href=\"{website.domains.First()}\">{website.username}</a></li>\n";
+    }
+
+    return Results.Content(html.Replace("{{members}}", members), "text/html");
 });
 
 app.MapGet("/prev", async Task<IResult> (HttpRequest request) =>
