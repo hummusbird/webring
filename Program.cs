@@ -45,14 +45,14 @@ app.MapGet("/next", async Task<IResult> (HttpRequest request) =>
     if (request.Headers["Referer"].ToString() == "")
     { // no referer, go to random domain
         Console.WriteLine("/next: no referrer, picking random website");
-        return Results.Redirect(websites[random.Next(websites.Count)].domains.First());
+        return Results.Redirect("/random");
     }
 
     for (int i = 0; i < websites.Count; i++)
     {
         if (websites[i].domains.Contains(request.Headers["Referer"])) // found website
         {
-            Console.WriteLine($"/next: next domain in webring from {request.Headers["Referer"]}");
+            Console.WriteLine($"/next: referred from {websites[i].username}");
             if (i == websites.Count) { i = -1; }
             return Results.Redirect(websites[i + 1].domains.First());
         }
@@ -67,14 +67,14 @@ app.MapGet("/prev", async Task<IResult> (HttpRequest request) =>
     if (request.Headers["Referer"].ToString() == "")
     { // no referer, go to random domain
         Console.WriteLine("/prev: no referrer, picking random website");
-        return Results.Redirect(websites[random.Next(websites.Count)].domains.First());
+        return Results.Redirect("/random");
     }
 
     for (int i = 0; i < websites.Count; i++)
     {
         if (websites[i].domains.Contains(request.Headers["Referer"])) // found website
         {
-            Console.WriteLine($"/prev: prev domain in webring from {request.Headers["Referer"]}");
+            Console.WriteLine($"/prev: referred from {websites[i].username}");
             if (i < 1) { i = websites.Count; }
             return Results.Redirect(websites[i - 1].domains.First());
         }
