@@ -38,6 +38,19 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseHttpsRedirection();  // redirect 80 to 443
 app.UseCors(MyAllowSpecificOrigins);
 
+app.MapGet("/", () =>
+{
+    string html = File.ReadAllText("wwwroot/index.html");
+
+    string members = "";
+    foreach (Website website in websites)
+    {
+        members += $"<li><a href=\"{website.domains.First()}\">{website.username}</a></li>\n";
+    }
+
+    return Results.Content(html.Replace("{{members}}", members), "text/html");
+});
+
 app.MapGet("/next", async Task<IResult> (HttpRequest request) =>
 {
     if (request.Headers["Referer"].ToString() == "")
@@ -51,26 +64,13 @@ app.MapGet("/next", async Task<IResult> (HttpRequest request) =>
         if (websites[i].domains.Contains(request.Headers["Referer"])) // found website
         {
             Console.WriteLine($"/next: referred from {websites[i].username}");
-            if (i == websites.Count) { i = -1; }
+            if (i == websites.Count - 1) { i = -1; }
             return Results.Redirect(websites[i + 1].domains.First());
         }
     }
 
     Console.WriteLine($"/prev: couldn't find {request.Headers["Referer"]} in list, picking random website");
     return Results.Redirect("/rand"); // unable to find website in list
-});
-
-app.MapGet("/", () =>
-{
-    string html = File.ReadAllText("wwwroot/index.html");
-
-    string members = "";
-    foreach (Website website in websites)
-    {
-        members += $"<li><a href=\"{website.domains.First()}\">{website.username}</a></li>\n";
-    }
-
-    return Results.Content(html.Replace("{{members}}", members), "text/html");
 });
 
 app.MapGet("/prev", async Task<IResult> (HttpRequest request) =>
