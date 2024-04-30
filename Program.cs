@@ -8,8 +8,8 @@ foreach (string line in lines)
 {
     Website website = new Website
     {
-        username = line.Split("\t").First(),
-        domains = line.Split("\t").Last().Split(",").ToList()
+        username = line.Split(";").First(),
+        domains = line.Split(";").Last().Split(",").ToList()
     };
 
     websites.Add(website);
@@ -42,7 +42,7 @@ app.UseCors(MyAllowSpecificOrigins);
 
 app.MapGet("/next", async Task<IResult> (HttpRequest request) =>
 {
-    if (request.Headers["Referer"].ToString() == null)
+    if (request.Headers["Referer"].ToString() == "")
     { // no referer, go to random domain
         Console.WriteLine("/next: no referrer, picking random website");
         return Results.Redirect(websites[random.Next(websites.Count)].domains.First());
