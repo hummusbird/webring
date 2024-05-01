@@ -1,5 +1,5 @@
-birb;https://miaow.ing/,https://miaowi.ng/,https://birb.cc/,https://hummusbird.co.uk/,https://webring.birb.cc/
+birb;https://miaow.ing/,https://miaowi.ng/,https://birb.cc/,https://hummusbird.co.uk/,https://webring.birb.cc/;https://birb.cc/images/badge_trans.png
 bobthebob;http://joke.enterprises/
 lysdal;https://witchrose.com/
-alyxia;https://alyxia.dev/
+alyxia;https://alyxia.dev/;https://alyxia.dev/static/img/88x31/self.png
 ayle;https://lostorstolen.neocities.org/

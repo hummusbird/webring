@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.HttpOverrides;
 
 List<Website> websites = new();
@@ -6,10 +7,14 @@ var random = new Random();
 string[] lines = File.ReadAllLines("list.txt");
 foreach (string line in lines)
 {
+    string url = null;
+    if (line.Split(";").Count() > 2) { url = line.Split(";").Last(); } // if there's two splits, the second is the badge url
+
     Website website = new Website
     {
-        username = line.Split(";").First(),
-        domains = line.Split(";").Last().Split(",").ToList()
+        username = line.Split(";")[0],
+        badgeurl = url,
+        domains = line.Split(";")[1].Split(",").ToList()
     };
 
     websites.Add(website);
@@ -45,7 +50,7 @@ app.MapGet("/", () =>
     string members = "";
     foreach (Website website in websites)
     {
-        members += $"<li><a href=\"{website.domains.First()}\">{website.username}</a></li>\n";
+        members += $"<div><a href=\"{website.domains.First()}\">{website.username}</a><img src=\"{website.badgeurl}\"></div>\n";
     }
 
     return Results.Content(html.Replace("{{members}}", members), "text/html");
@@ -101,10 +106,16 @@ app.MapGet("/rand", () =>
     return Results.Redirect(websites[random.Next(websites.Count)].domains.First());
 });
 
+app.MapGet("/members", () => {
+    Console.WriteLine("/members: requested members with badges");
+    return Results.Text(JsonConvert.SerializeObject(websites));
+});
+
 app.Run();
 
 public class Website
 {
     public string? username;
+    public string? badgeurl;
     public List<string>? domains;
 }
