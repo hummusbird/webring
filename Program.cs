@@ -5,7 +5,7 @@ List<Website> websites = new();
 var random = new Random();
 
 var env = Environment.GetEnvironmentVariable("WEBRING_LIST");
-string[] lines = env == null ? File.ReadAllLines("list.txt") : env.Split("\n");
+string[] lines = env == null ? File.ReadAllLines("list.txt") : env.Trim().Split("\n");
 foreach (string line in lines)
 {
     string url = null;
