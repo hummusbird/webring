@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.HttpOverrides;
 List<Website> websites = new();
 var random = new Random();
 
-string[] lines = File.ReadAllLines("list.txt");
+var env = Environment.GetEnvironmentVariable("WEBRING_LIST");
+string[] lines = env == null ? File.ReadAllLines("list.txt") : env.Trim().Split("\n");
 foreach (string line in lines)
 {
     string url = null;
@@ -40,7 +41,6 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
 
-app.UseHttpsRedirection();  // redirect 80 to 443
 app.UseCors(MyAllowSpecificOrigins);
 
 app.MapGet("/", () =>
@@ -106,7 +106,8 @@ app.MapGet("/rand", () =>
     return Results.Redirect(websites[random.Next(websites.Count)].domains.First());
 });
 
-app.MapGet("/members", () => {
+app.MapGet("/members", () =>
+{
     Console.WriteLine("/members: requested members with badges");
     return Results.Text(JsonConvert.SerializeObject(websites));
 });
